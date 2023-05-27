@@ -1,0 +1,9 @@
+class BaseState:
+    def __init__(self):
+        ...
+    
+    def update(self, clock):
+        ...
+
+    def draw(self):
+        ...
