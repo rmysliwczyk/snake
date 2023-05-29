@@ -3,10 +3,8 @@ from constants import *
 from GameObject import GameObject
 
 class SnakePart(GameObject):
-    def __init__(self, x, y, head=False, w=25, h=25, attached_to=None, speed=5):
-        super().__init__(x, y)
-        self.w = w
-        self.h = h
+    def __init__(self, x, y, head=False, w=TILE_WIDTH, h=TILE_HEIGHT, attached_to=None, speed=3):
+        super().__init__(x, y, w, h)
         self.color = "red" if head else "black"
         
         # Last position, of this part. Used for sequential movement of all parts
@@ -72,6 +70,36 @@ class SnakePart(GameObject):
                 return
             else:
                 current_part = current_part.attaching
+
+
+    def check_collision_with_self(self):
+        """
+        Check if head collides with any of the parts in the snake
+        """
+        current_part = self.attaching
+        while current_part:
+            if type(self.collides(current_part)) == SnakePart:
+                self.collides(current_part).color = "yellow"
+                return True
+            
+            current_part = current_part.attaching
+        
+        return False
+
+
+    def change_direction(self, direction):
+        if direction == "u":
+            if self.direction != "d":
+                self.direction = "u"
+        elif direction == "d":
+            if self.direction != "u":
+                self.direction = "d"
+        elif direction == "l":
+            if self.direction != "r":
+                self.direction = "l"
+        elif direction == "r":
+            if self.direction != "l":
+                self.direction = "r"
 
     def draw(self):
         pygame.draw.rect(pygame.display.get_surface(), self.color, (self.x, self.y, self.w, self.h))

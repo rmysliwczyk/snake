@@ -2,7 +2,7 @@ import pygame
 from GameObject import GameObject
 
 class Text(GameObject):
-    def __init__(self, center_x, center_y, size, text_string):
+    def __init__(self, center_x, center_y, size, text_string, color="black"):
         self.alpha = 255
         self.text_string = text_string
         self.pg_text_obj = pygame.font.Font(size=size)
@@ -10,7 +10,7 @@ class Text(GameObject):
         center_x = center_x - size_x/2
         center_y = center_y - size_y/2
         super().__init__(center_x, center_y)
-        self.pg_text_obj = self.pg_text_obj.render(text_string, True, "black")
+        self.pg_text_obj = self.pg_text_obj.render(text_string, True, color)
 
 
     def change_alpha(self, n):
