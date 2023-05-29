@@ -7,9 +7,9 @@ from TitleState import TitleState
 
 
 def main():
-    if pygame.init() != (5,0):
+    if pygame.init() != (5, 0):
         raise pygame.error("Not all modules were loaded")
-    
+
     pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption("SNAKE")
     StateMachine().change_current(TitleState())
@@ -17,6 +17,7 @@ def main():
     clock = pygame.time.Clock()
 
     update(clock)
+
 
 def update(clock):
     running = True
@@ -29,12 +30,13 @@ def update(clock):
         draw()
         clock.tick()
 
+
 def draw():
     pygame.display.get_surface().fill("white")
 
     StateMachine().draw_current()
     pygame.display.flip()
 
+
 if __name__ == "__main__":
     main()
-    

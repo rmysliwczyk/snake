@@ -3,8 +3,13 @@ import random
 from constants import *
 from GameObject import GameObject
 
+
 class Collectible(GameObject):
-    def __init__(self, x, y, w=TILE_WIDTH, h=TILE_HEIGHT, color=DEF_COLLECTIBLE_COLOR, lifetime=COLLECTIBLE_LIFETIME):
+    def __init__(
+            self, x, y, w=TILE_WIDTH, h=TILE_HEIGHT,
+            color=DEF_COLLECTIBLE_COLOR,
+            lifetime=COLLECTIBLE_LIFETIME
+        ):
         super().__init__(x, y, w, h)
         self.color = color
         self.lifetime = lifetime

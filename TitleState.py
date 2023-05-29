@@ -5,13 +5,13 @@ from StateMachine import StateMachine
 from PlayState import PlayState
 from Text import Text
 
+
 class TitleState(BaseState):
     def __init__(self):
         super().__init__()
         self.title_text = Text(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 300, "SNAKE")
         self.time_passed = 0
 
-    
     def update(self, clock):
         super().update(clock)
         self.time_passed += clock.get_time()

@@ -1,6 +1,7 @@
 import pygame
 from GameObject import GameObject
 
+
 class Text(GameObject):
     def __init__(self, center_x, center_y, size, text_string, color="black"):
         self.alpha = 255
@@ -11,7 +12,6 @@ class Text(GameObject):
         center_y = center_y - size_y/2
         super().__init__(center_x, center_y)
         self.pg_text_obj = self.pg_text_obj.render(text_string, True, color)
-
 
     def change_alpha(self, n):
         if n < 0 and self.pg_text_obj.get_alpha() <= 0:
@@ -24,7 +24,7 @@ class Text(GameObject):
 
     def draw(self):
         pygame.display.get_surface().blit(
-            self.pg_text_obj, 
+            self.pg_text_obj,
             (self.x,
              self.y,)
         )
