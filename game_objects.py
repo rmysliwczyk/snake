@@ -59,7 +59,7 @@ class Text(GameObject):
 class SnakePart(GameObject):
     def __init__(
                 self, x, y, head=False,
-                w=TILE_WIDTH, h=TILE_HEIGHT,
+                w=TILE_SIZE, h=TILE_SIZE,
                 attached_to=None, speed=3
             ):
         super().__init__(x, y, w, h)
@@ -166,7 +166,7 @@ class SnakePart(GameObject):
 
 class Collectible(GameObject):
     def __init__(
-            self, x, y, w=TILE_WIDTH, h=TILE_HEIGHT,
+            self, x, y, w=TILE_SIZE, h=TILE_SIZE,
             color=DEF_COLLECTIBLE_COLOR,
             lifetime=COLLECTIBLE_LIFETIME
         ):
@@ -179,7 +179,7 @@ class Collectible(GameObject):
         """
         Spawn new collectible in any x and y randomly
         """
-        return Collectible((random.randint(1, (SCREEN_WIDTH/TILE_WIDTH) - 1) * TILE_WIDTH), (random.randint(1, SCREEN_HEIGHT/TILE_HEIGHT) - 1) * TILE_HEIGHT)
+        return Collectible((random.randint(1, (SCREEN_WIDTH/TILE_SIZE) - 1) * TILE_SIZE), (random.randint(1, SCREEN_HEIGHT/TILE_SIZE) - 1) * TILE_SIZE)
 
     def draw(self):
         pygame.draw.rect(pygame.display.get_surface(), self.color, (self.x, self.y, self.w , self.h))

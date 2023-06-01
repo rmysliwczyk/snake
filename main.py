@@ -1,6 +1,7 @@
 import pygame
 from constants import *
-from game_states import StateMachine, TitleState
+from state_machine import StateMachine
+from game_states import TitleState
 
 
 def main():
@@ -9,6 +10,7 @@ def main():
 
     pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption("SNAKE")
+
     StateMachine().change_current(TitleState())
 
     clock = pygame.time.Clock()
@@ -33,7 +35,6 @@ def draw():
 
     StateMachine().draw_current()
     pygame.display.flip()
-
 
 if __name__ == "__main__":
     main()
