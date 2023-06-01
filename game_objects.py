@@ -90,18 +90,18 @@ class SnakePart(GameObject):
                 case "u":
                     self.y = self.y - self.h
                     if self.y < 0:
-                        self.y = SCREEN_HEIGHT - self.h
+                        self.y = (MAP_H * TILE_SIZE) - self.h
                 case "d":
                     self.y = self.y + self.h
-                    if self.y >= SCREEN_HEIGHT:
+                    if self.y >= (MAP_H * TILE_SIZE):
                         self.y = 0
                 case "l":
                     self.x = self.x - self.w
                     if self.x < 0:
-                        self.x = SCREEN_WIDTH - self.w
+                        self.x = (MAP_W * TILE_SIZE) - self.w
                 case "r":
                     self.x = self.x + self.w
-                    if self.x >= SCREEN_WIDTH:
+                    if self.x >= (MAP_W * TILE_SIZE):
                         self.x = 0
                 case _:
                     ...
@@ -157,9 +157,9 @@ class SnakePart(GameObject):
             if self.direction != "l":
                 self.direction = "r"
 
-    def draw(self):
+    def draw(self, surface):
         pygame.draw.rect(
-            pygame.display.get_surface(), self.color,
+            surface, self.color,
             (self.x, self.y, self.w, self.h)
             )
 
@@ -179,7 +179,7 @@ class Collectible(GameObject):
         """
         Spawn new collectible in any x and y randomly
         """
-        return Collectible((random.randint(1, (SCREEN_WIDTH/TILE_SIZE) - 1) * TILE_SIZE), (random.randint(1, SCREEN_HEIGHT/TILE_SIZE) - 1) * TILE_SIZE)
+        return Collectible((random.randint(1, MAP_W - 1) * TILE_SIZE), (random.randint(1, MAP_H - 1) * TILE_SIZE))
 
-    def draw(self):
-        pygame.draw.rect(pygame.display.get_surface(), self.color, (self.x, self.y, self.w , self.h))
+    def draw(self, surface):
+        pygame.draw.rect(surface, self.color, (self.x, self.y, self.w , self.h))

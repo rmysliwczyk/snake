@@ -38,12 +38,14 @@ class TitleState(BaseState):
 
 class PlayState(BaseState):
     def __init__(self):
-        self.snake = SnakePart(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, head=True)
+        self.play_area = pygame.Surface((MAP_W * TILE_SIZE, MAP_H * TILE_SIZE))
+        self.snake = SnakePart((MAP_W-1)/2 * TILE_SIZE, (MAP_H-1)/2  * TILE_SIZE, head=True)
         self.move_threshold = 0
         self.game_over = False
         self.current_collectible = None
         self.direction_queue = []
         self.overlay_text = None
+        self.score = 0
 
     def update(self, clock):
         keys_pressed = pygame.key.get_pressed()
@@ -73,6 +75,7 @@ class PlayState(BaseState):
 
                 if self.snake.collides(self.current_collectible):
                     self.snake.spawn_new_part()
+                    self.score += 10
                     self.current_collectible = None
             else:
                 while True:
@@ -97,17 +100,23 @@ class PlayState(BaseState):
                 SCREEN_WIDTH/2, SCREEN_HEIGHT/2,
                 150, "GAME OVER", "red"
                 )
-
+        else:
+            self.overlay_text = Text(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 - (TILE_SIZE * MAP_H)/2 - 15, 50, f"SCORE: {self.score}")
     def draw(self):
+        
+        self.play_area.fill("white")
+
         if self.current_collectible:
-            self.current_collectible.draw()
+            self.current_collectible.draw(self.play_area)
 
         current_snake_part = self.snake
         while True:
-            current_snake_part.draw()
+            current_snake_part.draw(self.play_area)
             current_snake_part = current_snake_part.attaching
             if current_snake_part is None:
                 break
+
+        pygame.display.get_surface().blit(self.play_area, (SCREEN_WIDTH/2 - (MAP_W * TILE_SIZE / 2), SCREEN_HEIGHT/2 - (MAP_H * TILE_SIZE / 2)))
 
         if self.overlay_text:
             self.overlay_text.draw()
