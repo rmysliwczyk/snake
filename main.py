@@ -1,9 +1,6 @@
 import pygame
 from constants import *
-
-from StateMachine import StateMachine
-from BaseState import BaseState
-from TitleState import TitleState
+from game_states import StateMachine, TitleState
 
 
 def main():

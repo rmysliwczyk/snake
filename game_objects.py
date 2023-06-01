@@ -1,6 +1,59 @@
 import pygame
+import random
 from constants import *
-from GameObject import GameObject
+
+class GameObject:
+    def __init__(self, x=0, y=0, w=0, h=0):
+        self.x = x
+        self.y = y
+        self.w = w
+        self.h = h
+
+    def collides(self, other):
+        """
+        Check box collision
+
+        :param self: This object
+        :type self: GameObject
+        :return: GameObject or None
+        :rtype: GameObject or None
+        """
+
+        if self.x + self.w > other.x and self.x < other.x + other.w:
+            if self.y + self.h > other.y and self.y < other.y + other.h:
+                return other
+            else:
+                return None
+        else:
+            return None
+
+
+class Text(GameObject):
+    def __init__(self, center_x, center_y, size, text_string, color="black"):
+        self.alpha = 255
+        self.text_string = text_string
+        self.pg_text_obj = pygame.font.Font(None, size=size)
+        size_x, size_y = self.pg_text_obj.size(text_string)
+        center_x = center_x - size_x/2
+        center_y = center_y - size_y/2
+        super().__init__(center_x, center_y)
+        self.pg_text_obj = self.pg_text_obj.render(text_string, True, color)
+
+    def change_alpha(self, n):
+        if n < 0 and self.pg_text_obj.get_alpha() <= 0:
+            raise ValueError("Can't make alpha less than 0")
+        elif n > 0 and self.pg_text_obj.get_alpha() >= 255:
+            raise ValueError("Can't make alpha more than 255")
+        else:
+            self.alpha = self.pg_text_obj.get_alpha() + n
+            self.pg_text_obj.set_alpha(self.alpha)
+
+    def draw(self):
+        pygame.display.get_surface().blit(
+            self.pg_text_obj,
+            (self.x,
+             self.y,)
+        )
 
 
 class SnakePart(GameObject):
@@ -109,3 +162,24 @@ class SnakePart(GameObject):
             pygame.display.get_surface(), self.color,
             (self.x, self.y, self.w, self.h)
             )
+
+
+class Collectible(GameObject):
+    def __init__(
+            self, x, y, w=TILE_WIDTH, h=TILE_HEIGHT,
+            color=DEF_COLLECTIBLE_COLOR,
+            lifetime=COLLECTIBLE_LIFETIME
+        ):
+        super().__init__(x, y, w, h)
+        self.color = color
+        self.lifetime = lifetime
+
+    @classmethod
+    def spawn_collectible(cls):
+        """
+        Spawn new collectible in any x and y randomly
+        """
+        return Collectible((random.randint(1, (SCREEN_WIDTH/TILE_WIDTH) - 1) * TILE_WIDTH), (random.randint(1, SCREEN_HEIGHT/TILE_HEIGHT) - 1) * TILE_HEIGHT)
+
+    def draw(self):
+        pygame.draw.rect(pygame.display.get_surface(), self.color, (self.x, self.y, self.w , self.h))

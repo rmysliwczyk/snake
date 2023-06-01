@@ -1,10 +1,38 @@
 import pygame
 from constants import *
-from BaseState import BaseState
-from StateMachine import StateMachine
-from Collectible import Collectible
-from Snake import SnakePart
-from Text import Text
+from game_objects import SnakePart, Collectible, Text
+
+
+class BaseState:
+    def __init__(self):
+        ...
+    
+    def update(self, clock):
+        ...
+
+    def draw(self):
+        ...
+
+
+class TitleState(BaseState):
+    def __init__(self):
+        super().__init__()
+        self.title_text = Text(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 300, "SNAKE")
+        self.time_passed = 0
+
+    def update(self, clock):
+        super().update(clock)
+        self.time_passed += clock.get_time()
+        if self.time_passed > 10:
+            try:
+                self.title_text.change_alpha(-2)
+            except ValueError:
+                StateMachine.change_current(PlayState())
+            self.time_passed = 0
+
+    def draw(self):
+        super().draw()
+        self.title_text.draw()
 
 
 class PlayState(BaseState):
@@ -82,3 +110,20 @@ class PlayState(BaseState):
 
         if self.overlay_text:
             self.overlay_text.draw()
+
+
+class StateMachine:
+    current_state = None
+    @classmethod
+    def change_current(cls, state):
+        cls.current_state = state
+
+    @classmethod
+    def update_current(cls, clock):
+        cls.current_state.update(clock)
+    
+    @classmethod
+    def draw_current(cls):
+        cls.current_state.draw()
+
+
