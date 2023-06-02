@@ -49,18 +49,18 @@ class PlayState(BaseState):
 
     def update(self, clock):
         keys_pressed = pygame.key.get_pressed()
-        if len(self.direction_queue) < 3:
+        if len(self.direction_queue) < 2:
             if keys_pressed[pygame.K_UP]:
-                if "u" not in self.direction_queue:
+                if "u" not in self.direction_queue and self.snake.direction != "u":
                     self.direction_queue.append("u")
             elif keys_pressed[pygame.K_DOWN]:
-                if "d" not in self.direction_queue:
+                if "d" not in self.direction_queue and self.snake.direction != "d":
                     self.direction_queue.append("d")
             elif keys_pressed[pygame.K_LEFT]:
-                if "l" not in self.direction_queue:
+                if "l" not in self.direction_queue and self.snake.direction != "l":
                     self.direction_queue.append("l")
             elif keys_pressed[pygame.K_RIGHT]:
-                if "r" not in self.direction_queue:
+                if "r" not in self.direction_queue and self.snake.direction != "r":
                     self.direction_queue.append("r")
 
         self.move_threshold += clock.get_time() * self.snake.speed
@@ -98,13 +98,13 @@ class PlayState(BaseState):
         if self.game_over:
             self.overlay_text = Text(
                 SCREEN_WIDTH/2, SCREEN_HEIGHT/2,
-                150, "GAME OVER", "red"
+                150, f"SCORE: {self.score}"
                 )
         else:
             self.overlay_text = Text(SCREEN_WIDTH/2, SCREEN_HEIGHT/2 - (TILE_SIZE * MAP_H)/2 - 15, 50, f"SCORE: {self.score}")
     def draw(self):
         
-        self.play_area.fill("white")
+        self.play_area.fill((180, 188, 0))
 
         if self.current_collectible:
             self.current_collectible.draw(self.play_area)

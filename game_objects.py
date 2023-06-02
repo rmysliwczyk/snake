@@ -29,7 +29,7 @@ class GameObject:
 
 
 class Text(GameObject):
-    def __init__(self, center_x, center_y, size, text_string, color="black"):
+    def __init__(self, center_x, center_y, size, text_string, color=(177,178,172)):
         self.alpha = 255
         self.text_string = text_string
         self.pg_text_obj = pygame.font.Font(None, size=size)
@@ -63,7 +63,7 @@ class SnakePart(GameObject):
                 attached_to=None, speed=3
             ):
         super().__init__(x, y, w, h)
-        self.color = "red" if head else "black"
+        self.color = (110, 96, 0)
 
         # Position before part was moved
         self.prev_x = x
@@ -167,7 +167,7 @@ class SnakePart(GameObject):
 class Collectible(GameObject):
     def __init__(
             self, x, y, w=TILE_SIZE, h=TILE_SIZE,
-            color=DEF_COLLECTIBLE_COLOR,
+            color=(110, 96, 0),
             lifetime=COLLECTIBLE_LIFETIME
         ):
         super().__init__(x, y, w, h)
@@ -182,4 +182,4 @@ class Collectible(GameObject):
         return Collectible((random.randint(1, MAP_W - 1) * TILE_SIZE), (random.randint(1, MAP_H - 1) * TILE_SIZE))
 
     def draw(self, surface):
-        pygame.draw.rect(surface, self.color, (self.x, self.y, self.w , self.h))
+        pygame.draw.rect(surface, self.color, (self.x, self.y, self.w , self.h), 5)

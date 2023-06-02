@@ -31,7 +31,7 @@ def update(clock):
 
 
 def draw():
-    pygame.display.get_surface().fill("gray")
+    pygame.display.get_surface().fill((70, 78, 89))
 
     StateMachine().draw_current()
     pygame.display.flip()
